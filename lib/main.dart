@@ -26,13 +26,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController aField = new TextEditingController();
+  TextEditingController bField = new TextEditingController();
+  TextEditingController cField = new TextEditingController();
 
   void _incrementCounter() {
     setState(() {
       log('data: $_counter');
-      String value = emailController.text;
-      log('emailText: $value');
+      String a = aField.text;
+      String b = bField.text;
+      String c = cField.text;
+      log('a: $a');
+      log('b: $b');
+      log('c: $c');
       _counter++;
     });
   }
@@ -54,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: EdgeInsets.only(left: 16.0, top: 0, right: 16.0, bottom:0),
                 child: TextFormField(
-                          controller: emailController,
+                          controller: aField,
                           decoration: InputDecoration(
                             labelText: "Enter a"
                             )
@@ -64,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom:0),
                 child: TextFormField(
+                          controller: bField,
                           decoration: InputDecoration(
                             labelText: "Enter b"
                             )
@@ -73,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom:0),
                 child: TextFormField(
+                          controller: cField,
                           decoration: InputDecoration(
                             labelText: "Enter c"
                             )
