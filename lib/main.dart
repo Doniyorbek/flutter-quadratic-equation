@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:developer';
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,22 +30,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  
   TextEditingController aField = new TextEditingController();
   TextEditingController bField = new TextEditingController();
   TextEditingController cField = new TextEditingController();
+  TextEditingController resultField = new TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      log('data: $_counter');
-      String a = aField.text;
-      String b = bField.text;
-      String c = cField.text;
-      log('a: $a');
-      log('b: $b');
-      log('c: $c');
-      _counter++;
-    });
+
+  void _makeMath() {
+    var a = int.parse(aField.text);
+      var b = int.parse(bField.text);
+      var c = int.parse(cField.text);
+      var d = pow(b,2) - 4 * a * c;
+      if (d > 0) {
+          var x1 = (-b - sqrt(d)) / (2 * a);
+          var x2 = (-b + sqrt(d)) / (2 * a);
+          String x11 = x1.toString();
+          String x22 = x2.toString();
+          aField.text = 'x1=' + x11 + ' ' + 'x2= ' + x22;
+          resultField.text = 'x1 is $x1, x2 is $x2';
+      } else {
+        resultField.text = 'discriminant is negative';
+      }
   }
 
   @override
@@ -63,7 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           controller: aField,
                           decoration: InputDecoration(
                             labelText: "Enter a"
-                            )
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ], // Only numbers can be entered
                         ),
               ),
 
@@ -73,7 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           controller: bField,
                           decoration: InputDecoration(
                             labelText: "Enter b"
-                            )
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ], // Only numbers can be entered
                         ),
               ),
 
@@ -83,13 +100,29 @@ class _MyHomePageState extends State<MyHomePage> {
                           controller: cField,
                           decoration: InputDecoration(
                             labelText: "Enter c"
-                            )
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ], // Only numbers can be entered
+                        ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom:0),
+                child: TextFormField(
+                          controller: resultField,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: "Result"
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                ], // Only numbers can be entered
                         ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0, bottom:0),
                 child: RaisedButton(
-                    onPressed: _incrementCounter,
+                    onPressed: _makeMath,
                     textColor: Colors.white,
                     color: Colors.red,
                     padding: const EdgeInsets.all(16.0),
